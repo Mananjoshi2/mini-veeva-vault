@@ -1,77 +1,236 @@
-# Mini Veeva Vault (Demo)
+# Clinical Trial Document Workflow System
 
-Mini Veeva Vault is a simulated clinical trial + regulatory document management system.
+## Overview
+
+This project is a **full-stack clinical trial document management and workflow system** designed to simulate how regulated industries (such as life sciences, pharma, and healthcare) manage documents, approvals, and patient data.
+
+In real-world environments, platforms like Veeva Vault are used to:
+
+* manage regulatory submissions
+* track document versions
+* enforce review and approval workflows
+* maintain audit logs for compliance
+
+This project recreates a simplified version of that ecosystem.
+
+---
+
+## Live Demo
+
+* Frontend: https://mini-veeva-vault.vercel.app
+* Backend API Docs: https://mini-veeva-vault-production.up.railway.app/docs
+
+---
+
+## Features
+
+### Authentication & Security
+
+* JWT-based authentication
+* Role-based access control (Researcher / Reviewer)
+* Secure login and signup
+
+### Patient Data Management
+
+* Create and track patient records
+* Associate treatments and outcomes
+* Display structured clinical data
+
+### Document Workflow System
+
+* Upload and manage documents
+* Track document versions
+* Submit documents for review
+* Maintain document lifecycle states:
+
+  * Draft
+  * Submitted
+  * Approved / Reviewed (extensible)
+
+### Version Control
+
+* Upload multiple versions of a document
+* Track changes over time
+* Maintain version history
+
+### Audit Logging
+
+* Capture user actions (document creation, submission, updates)
+* Provide traceability for compliance workflows
+
+### Dashboard
+
+* View patient records
+* View document states
+* Manage workflow actions from a central UI
+
+---
 
 ## Tech Stack
-- Backend: Python FastAPI (JWT auth, role-based access control)
-- Frontend: React + TypeScript
-- Database: PostgreSQL
 
-## Prerequisites
-- Python 3.11+
-- Node.js 20+
-- Docker (recommended) or a local PostgreSQL instance
+### Frontend
 
-## 1) Start PostgreSQL
-From the project root:
-```bash
-docker compose up -d
+* React (Vite)
+* TypeScript
+* Axios (API communication)
+
+### Backend
+
+* FastAPI (Python)
+* SQLAlchemy (ORM)
+* JWT authentication
+
+### Database
+
+* PostgreSQL (Railway)
+
+### Deployment
+
+* Frontend: Vercel
+* Backend: Railway
+
+---
+
+## Architecture
+
+```
+Frontend (React)
+     ↓
+API Layer (Axios)
+     ↓
+FastAPI Backend
+     ↓
+PostgreSQL Database
 ```
 
-Postgres runs on `localhost:5432` with database `miniveeva`.
+---
 
-## 2) Backend (FastAPI)
+## Local Setup
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/your-username/mini-veeva-vault.git
+cd mini-veeva-vault
+```
+
+---
+
+### 2. Backend setup
+
 ```bash
 cd backend
-cp .env.example .env
-# For local demo data, set SEED_ON_STARTUP=true in backend/.env
-python -m venv .venv
-source .venv/bin/activate
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
-
-# Run the API server
-uvicorn app.main:app --reload --port 8000
 ```
 
-On startup the app:
-- Creates the PostgreSQL schema (via SQLAlchemy `create_all`)
-- Seeds demo data (users, patients, documents, and a submission/approval workflow)
+Create `.env`:
 
-### Production start
-When running in production, use:
-```bash
-uvicorn app.main:app --host 0.0.0.0 --port $PORT
 ```
-and set `SEED_ON_STARTUP=false` in `backend/.env` (so demo records aren’t inserted on every start).
+DATABASE_URL=your_postgres_url
+JWT_SECRET=your_secret
+```
 
-## 3) Frontend (React)
+Run server:
+
 ```bash
-cd ../frontend
-cp .env.example .env
+uvicorn app.main:app --reload
+```
+
+---
+
+### 3. Frontend setup
+
+```bash
+cd frontend
 npm install
+```
+
+Create `.env`:
+
+```
+VITE_API_BASE_URL=http://localhost:8000
+```
+
+Run:
+
+```bash
 npm run dev
 ```
 
-Frontend dev server runs at `http://localhost:5173`.
+---
 
-## Demo Accounts (seeded)
-Email and password (password is `Password123!`):
-- `researcher1@miniveeva.local` (Researcher)
-- `reviewer1@miniveeva.local` (Reviewer)
-- `admin1@miniveeva.local` (Admin)
+## Production Setup
 
-## Key API Endpoints
-- Auth: `POST /api/auth/signup`, `POST /api/auth/login`
-- Patients:
-  - `POST /api/patients`
-  - `GET /api/patients`
-- Documents:
-  - `POST /api/documents` (multipart upload, metadata only)
-  - `GET /api/documents`
-  - `POST /api/documents/{document_id}/submit`
-  - `POST /api/documents/{document_id}/review`
-  - `GET /api/documents/{document_id}/history`
-  - `GET /api/documents/approvals/queue` (reviewers)
-- Audit Logs (Admin):
-  - `GET /api/audit-logs`
+### Frontend (Vercel)
 
+* Connect GitHub repo
+* Set:
+
+```
+VITE_API_BASE_URL=https://your-railway-backend-url
+```
+
+### Backend (Railway)
+
+* Add PostgreSQL
+* Set DATABASE_URL from Railway
+* Configure CORS origins
+
+---
+
+## API Usage
+
+Visit:
+
+```
+/docs
+```
+
+for Swagger UI to:
+
+* create patients
+* authenticate users
+* manage documents
+
+---
+
+## Example Workflow
+
+1. Create a user account
+2. Add patient records
+3. Upload a document (Draft)
+4. Submit document for review
+5. Upload a new version
+6. Track document history and audit logs
+
+---
+
+## Why Did I Make This Project 
+
+This project demonstrates how regulated workflows are implemented in software systems:
+
+* data integrity
+* auditability
+* controlled access
+* versioning
+
+It simulates real-world enterprise tools used in clinical and regulatory environments.
+
+---
+
+## Future Improvements
+
+* Reviewer approval UI
+* File storage (S3)
+* Real-time notifications
+* Improved UI/UX
+* Analytics dashboard
+* Multi-tenant support
+
+---
+
+## License
+
+MIT
