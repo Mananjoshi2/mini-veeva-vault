@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is a **full-stack clinical trial document management and workflow system** designed to simulate how regulated industries (such as life sciences, pharma, and healthcare) manage documents, approvals, and patient data.
+This project is a **full-stack clinical trial document management and workflow system**, modeling how regulated industries (such as life sciences, pharma, and healthcare) manage documents, approvals, and patient data.
 
 In real-world environments, platforms like Veeva Vault are used to:
 
@@ -207,16 +207,16 @@ for Swagger UI to:
 
 ---
 
-## Why Did I Make This Project 
+## Why I Built This
 
-This project demonstrates how regulated workflows are implemented in software systems:
+This project implements the core workflow patterns that regulated software systems rely on:
 
 * data integrity
 * auditability
 * controlled access
 * versioning
 
-It simulates real-world enterprise tools used in clinical and regulatory environments.
+It's modeled on enterprise tools used in clinical and regulatory environments, such as Veeva Vault.
 
 ---
 
